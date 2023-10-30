@@ -95,9 +95,9 @@ navbar.onclick = (e) => {
 //End of Code that is triger when we click anywhere on Navbar
 
 
-// window.onload = () => {
-//     createHTML();
-// }
+window.onload = () => {
+    createHTML();
+}
 
 // Start of Function to create cards
 async function createHTML(url = urls.home.replace(/PutTheNoOfPageHere/, `${page}`)) {

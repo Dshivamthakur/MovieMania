@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: large;
+    background-color: rgb(52, 118, 224);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* NavBar Style Start Start */
+.container {
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    position: fixed;
+    width: 100%;
+    height: 7vh;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+}
+
+.logo,
+.dropDownButton,
+.dropdown~div {
+    padding: 1rem 1rem;
+    color: blueviolet;
+    cursor: pointer;
+}
+.dropdown ~ div:hover{
+    color: rgb(60, 8, 109);
+}
+/* NavBar Style Start Start */
+
+/* Arrow symbol style Start */
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    vertical-align: 10%;
+}
+
+.down {
+    color: black;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+/* Arrow symbol style END */
+
+/* Dropdown style Start */
+.options .dropDownButton {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+    background-color: aliceblue;
+}
+
+.dropdown-menu>div {
+    padding: 1rem;
+}
+
+.dropdown-menu>div:hover {
+    background-color: rgb(68, 68, 167);
+    color: white;
+    cursor: pointer;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0px);
+    pointer-events: auto;
+}
+
+/* Dropdown style End */
+
+/* Card style Start */
+.main-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px,1fr)); 
+    justify-content: center;
+    gap: 4rem;
+    padding: 2rem;
+    margin-top: 50px;
+}
+.card{
+    background-color: white;
+    padding: 1rem 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    cursor: pointer;
+}
+.image{
+    width: 100%;
+    height: 50vh;
+}
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.view{
+margin-left: 20px;
+}
+
+.card-footer, .heart, .view, .view > div{
+    display: flex;
+    align-items: center;   
+    justify-content: space-between;
+}
+
+.view > div{
+    font-size: 1.5rem;
+}
+
+.card-footer{
+    width: 50%;
+}
+
+.heart > p,.view > div:nth-child(2){
+    padding-left: .5rem;
+}
+
+.release{
+    color: grey;
+    margin: -0.5rem 0 0 0;
+}
+
+/* Card style End */
+
+.video{
+    display: flex;
+    background-color: black;
+    color: aliceblue;
+    flex-grow: 1;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    font-size: 3em;
+    text-align: center;
+    display: none;
+}
+
+/* start of styles for burger div */
+.burger div{
+    height: 5px;
+    width: 25px;
+    margin:5px;
+    background-color: black;
+    transition: all 0.5s ease;
+    border-radius: 10%;
+}
+
+.burger-Clicked #line1{
+    transform: rotate(45deg) translate(7px);
+}
+
+.burger-Clicked #line2{
+    display: none;
+}
+
+.burger-Clicked #line3{
+    transform: rotate(-45deg) translate(7px);
+}
+
+.burger{
+    display: none;
+}
+
+/* End of styles for burger div */
+
+@media screen and (max-width:945px) {
+    .main-container{
+        grid-template-columns: repeat(auto-fit, minmax(300px,400px)); 
+    }
+
+    .options{
+        position: absolute;
+        right: 0;
+        top: 7vh;
+        height: 93vh;
+        padding: 60px 0px;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: aliceblue;
+        width: 50%;
+        transform: translateX(100%);
+    }
+    .options > div{
+        opacity: 0;
+    }
+    .optionsClicked{
+        transform: translateX(0%);
+    }
+    .burger{
+        display: block;
+    }
+
+    .dropdown-menu {
+        transform: translateX(-100%);
+        top: 0;
+    }
+}
+
+@keyframes LinksInOptionsAnimation {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+ /* start of CSS for Loader */
+
+ .ContainerForLoader{
+     display: flex;
+    align-items: center;
+    justify-content: center;  
+ }
+
+
+ .loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid black; /* Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 1s linear infinite;
+    
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+ /* End of CSS for Loader */

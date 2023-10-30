@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- <meta name="referrer" content="origin"/> -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieMania</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- <nav> -->
+        <div class="container" >
+            <div class="logo" data-logo>MovieMania</div>
+
+            <div class="options">
+                <div class="dropdown">
+                    <div class="dropDownButton">
+                        <div class="text">English</div><i class="arrow down"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="link" data-language="fr-be">French</div>
+                        <div class="link" data-language="en-us">English</div>
+                        <div class="link" data-language="hi">Hindi</div>
+                        <div class="link" data-language="es-hn">Spanish</div>
+                    </div>
+                </div>
+                <div class="home" data-links="home">Top Rated Movie</div>
+                <div class="popular" data-links="popular">Popular</div>
+                <div class="upcoming" data-links="upcoming">Upcoming</div>
+            </div>
+
+            <div class="burger" >
+                <div id="line1"></div>
+                <div id="line2"></div>
+                <div id="line3"></div>
+            </div>
+        </div>
+    <!-- </nav> -->
+    <div class="main-container" >
+
+        <!-- <div class="card">
+            <div>
+                <h3>Hard Kill</h3>
+                <p class="release">Released: 2020-08-25</p>
+            </div>
+            
+            <div class="image">
+                <img src="https://image.tmdb.org/t/p/w500/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg" alt="">
+            </div>
+            
+            <div class="card-footer">
+                <div class="heart"><span style="font-size: 2rem;">&#10084;</span> <p id="heart-text">139</p></div>
+                <div class="view">
+                     <div style="width:  2em;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M.2 10a11 11 0 0 1 19.6 0A11 11 0 0 1 .2 10zm9.8 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></div> 
+                     <div id="view-text">567</div>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+
+    <div class="ContainerForLoader">
+        <div class="loader"></div>
+    </div>
+
+    
+
+    <div class="video">
+    </div>
+
+</body>
+
+</html>

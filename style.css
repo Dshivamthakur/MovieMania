@@ -27,7 +27,13 @@ body {
     height: 7vh;
 }
 
-.options {
+.options{
+    display: flex;
+    justify-content: space-between;
+    width: 65%;
+}
+
+.options > .optionsandlinksContainer{
     display: flex;
     align-items: center;
 }
@@ -197,6 +203,13 @@ margin-left: 20px;
     display: none;
 }
 
+.options > input{
+    height: 3vh;
+    align-self: center;
+    border-radius: 15px;
+    padding: 12px;
+}
+
 /* End of styles for burger div */
 
 @media screen and (max-width:945px) {
@@ -216,9 +229,22 @@ margin-left: 20px;
         width: 50%;
         transform: translateX(100%);
     }
-    .options > div{
+
+    .options > .optionsandlinksContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height:70vh;
+    }
+
+     .options > .optionsandlinksContainer > div{
         opacity: 0;
     }
+
+    .options > input{
+        opacity: 0;
+    }
+
     .optionsClicked{
         transform: translateX(0%);
     }
@@ -265,3 +291,19 @@ margin-left: 20px;
     100% { transform: rotate(360deg); }
   }
  /* End of CSS for Loader */
+
+ .errorMessage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    background-color: black;
+    display: none;
+ }
+
+
+ .errorMessage > p{
+    color: red;
+    font-size: x-large;
+    font-weight: 900;
+ }

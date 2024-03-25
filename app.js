@@ -1,10 +1,12 @@
-const apiKye = 'PutYourApiKeyHere';
+const apiKye = ;
 const BaseURL = 'https://api.themoviedb.org/3/';
 // const GetMovieVideo = `https://api.themoviedb.org/3/movie/631842/videos?api_key=${apiKye}&language=en-US`;
 
 const $burger = document.getElementsByClassName('burger')[0];
 const $options = document.getElementsByClassName('options')[0];
-const $LinksInOptions = document.querySelectorAll('.options > div');
+const $LinksInOptions = document.querySelectorAll('.options > .optionsandlinksContainer > div');
+const $searchBar = document.querySelectorAll('.options  > input');
+const $ErrorMessageForSearch = document.getElementsByClassName('errorMessage')[0];
 
 
 const GetMovieVideo = `https://api.themoviedb.org/3/movie/PlaceMovieIdHere/videos?api_key=${apiKye}&language=en-US`;
@@ -14,7 +16,7 @@ const navbar = document.getElementsByClassName('container')[0];
 const $logo = document.getElementsByClassName('logo')[0];
 const $loader = document.getElementsByClassName('ContainerForLoader')[0];
 var CardOrLogoClicked = false;
-
+var SerachIsErrorOut = false;
 var page = 1;
 var url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKye}&language=en-us&page=PutTheNoOfPageHere`;
 
@@ -26,15 +28,16 @@ const urls = new function () {
 }
 
 // Start of code to show movie when clicked on card div
-mainContainr.onclick = async (e) => {
+mainContainr.onclick =  (e) => {
     if (e.target.closest(`[data-movieId]`) === null) {
         return;
     }
+    $searchBar[0].setAttribute('disabled',true);
     CardOrLogoClicked = true;
     var Id = e.target.closest(`[data-movieId]`);
     var URLToGetMovies = GetMovieVideo.replace('PlaceMovieIdHere', `${Id.dataset.movieid}`);
     URLToGetMovies = URLToGetMovies.replace(/language=en-US/, `language=${urls.zlanguage}`);
-    await axios.get(URLToGetMovies)
+     axios.get(URLToGetMovies)
         .then(result => {
             var VideoLink = result.data.results.find(GetVideoLinkI);
             ShowVideo(VideoLink.key);
@@ -54,6 +57,7 @@ function GetVideoLinkI(element) {
 
 function ShowVideo(VideoLink) {
     mainContainr.style.display = 'none';
+    $VideoContainr.innerHTML = ``;
     var iframe = document.createElement("iframe");
     iframe.setAttribute("allowfullscreen", "");
     iframe.setAttribute("frameborder", "0");
@@ -67,7 +71,10 @@ function ShowVideo(VideoLink) {
 
 //Start of Code that is triger when we click anywhere on Navbar
 navbar.onclick = (e) => {
-    if (e.target.matches('[data-Language]')) {
+    if(e.target.tagName === "INPUT"){
+        return;
+    }
+    else if (e.target.matches('[data-Language]')) {
         document.querySelector('.dropDownButton > .text').innerText = e.target.innerText;
         urls.zlanguage = `${e.target.dataset.language}`;
         page = 1;
@@ -77,34 +84,54 @@ navbar.onclick = (e) => {
         page = 1;
     }
     //start of code to redirect user back to list of movies when user click on logo
-    else if (e.target.matches('[data-logo]')) {
+    else if (e.target.matches('[data-logo]')  && SerachIsErrorOut === false) {
         mainContainr.style.display = 'grid';
         $VideoContainr.innerHTML = ``;
         $VideoContainr.style.display = "none";
         CardOrLogoClicked = true;
+        $searchBar[0].removeAttribute('disabled');
         return;
     }
     //End of code to redirect user back to list of movies when user click on logo
     else {
         return;
     }
+    $VideoContainr.innerHTML = ``;
+    $VideoContainr.style.display = "none";
+    $searchBar[0].removeAttribute('disabled');
+    $ErrorMessageForSearch.style.display = 'none';
+    mainContainr.style.display = 'grid';
     url = url.replace(/language=.*(?=&page)/, `language=${urls.zlanguage}`);
     mainContainr.innerHTML = ``;
     createHTML(url.replace(/PutTheNoOfPageHere/, `${page}`));
 }
 //End of Code that is triger when we click anywhere on Navbar
 
-
 window.onload = () => {
     createHTML();
 }
 
 // Start of Function to create cards
-async function createHTML(url = urls.home.replace(/PutTheNoOfPageHere/, `${page}`)) {
+function createHTML(url = urls.home.replace(/PutTheNoOfPageHere/, `${page}`)) {
+    SerachIsErrorOut = false;
     $loader.style.display = 'flex';
-    await axios.get(url)
+     axios.get(url)
         .then((result) => {
+            if (result.data.results.length === 0) {
+                $ErrorMessageForSearch.style.display = 'flex';
+                mainContainr.style.display = 'none';
+                SerachIsErrorOut = true;
+            }
+            else{
+                $ErrorMessageForSearch.style.display = 'none';
+            }
             result.data.results.forEach(element => {
+                console.log((element.original_title === 'All Ladies Do It')?element:null);
+                console.log((element.adult === 'true')?element:null);
+                if(element.adult === true){
+                    console.log(element);
+                    return;
+                }
                 var cardDiv = document.createElement('div');
                 cardDiv.classList.add('card');
                 cardDiv.setAttribute(`data-movieId`, element.id);
@@ -113,6 +140,7 @@ async function createHTML(url = urls.home.replace(/PutTheNoOfPageHere/, `${page}
 
                 var h3 = document.createElement('h3');
                 h3.textContent = element.title;
+    
                 var FirstPTag = document.createElement('p');
                 FirstPTag.classList.add('release');
                 FirstPTag.textContent = `Released: ${element.release_date}`;
@@ -127,7 +155,6 @@ async function createHTML(url = urls.home.replace(/PutTheNoOfPageHere/, `${page}
                 cardDiv.append(firstDiv, imgDiv);
 
 
-
                 cardDiv.innerHTML += `            
             <div class="card-footer">
                 <div class="heart"><span style="font-size: 2rem;">&#10084;</span> <p id="heart-text">${element.vote_average}</p></div>
@@ -139,22 +166,20 @@ async function createHTML(url = urls.home.replace(/PutTheNoOfPageHere/, `${page}
         
         `;
                 mainContainr.appendChild(cardDiv);
-            });
+            })
         });
     $loader.style.display = 'none';
 }
 // End of Function to create cards
 
 
-
 // Code for infinite scroll
 
 window.addEventListener('scroll', () => {
-    if (CardOrLogoClicked === true) {
-        CardOrLogoClicked === false;
-        return;
-    }
-
+    // if (CardOrLogoClicked === true) {
+    //     // CardOrLogoClicked === false;
+    //     // return;
+    // }
     if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
         page = page + 1;
         createHTML(url.replace(/PutTheNoOfPageHere/, `${page}`));
@@ -168,10 +193,46 @@ $burger.onclick = () => {
     $LinksInOptions.forEach((value, index) => {
         if (value.style.animation) {
             value.style.animation = '';
+            $searchBar[0].style.animation = '';
         }
         else {
+            if(index === 3){
+                $searchBar[0].style.animation = `LinksInOptionsAnimation 0.5s ease forwards ${4 / 5 + 0.5}s`;    
+            }
             value.style.animation = `LinksInOptionsAnimation 0.5s ease forwards ${index / 5 + 0.5}s`;
         }
-    })
+    });
+}
+
+function search (text) {
+    $ErrorMessageForSearch.style.display = 'none';
+    mainContainr.style.display = 'grid';
+    if(text === ''){
+        mainContainr.innerHTML = ``;
+        createHTML();
+        return;
+    }
+    mainContainr.innerHTML = ``;
+    url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKye}&query=${text}&language=${urls.zlanguage}&page=PutTheNoOfPageHere`;
+    createHTML(url.replace(/PutTheNoOfPageHere/, `${page}`));
+}
+
+
+$searchBar[0].addEventListener('input', (e) => {
+    updateDebounceText(e.target.value);
+});
+
+const updateDebounceText = debounce((text) => { 
+    search(text);
+});
+
+function debounce(cb, delay = 2000){
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            cb(...args);
+        }, delay);
+    }
 }
 
